@@ -1,0 +1,22 @@
+{
+  "name": "@bbva-web-components/pokemon-ui",
+  "version": "1.0.0-rc.1",
+  "description": "",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "@bbva-web-components/bbva-core-lit-helpers": "^1.0.4",
+    "@bbva-web-components/bbva-foundations-styles": "^2.3.5",
+    "@bbva-web-components/bbva-foundations-spinner": "^1.0.14",
+    "@bbva-experience-components/bbva-expandable-accordion": "^1.6.16",
+    "@bbva-experience-components/bbva-type-text": "^1.6.6",
+    "@bbva-web-components/bbva-button-default": "^5.15.0",
+    "lit-element": "^2.0.0"
+  },
+  "devDependencies": {
+    "@cells/cells-component-core": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@open-wc/testing": "2.x"
+  }
+}

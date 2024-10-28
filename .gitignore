@@ -3,6 +3,8 @@ node_modules/
 *-log.json
 *-error.json
 
+package-lock.json
+
 *.d.ts
 *.tgz
 components

@@ -6,21 +6,7 @@ import '@bbva-experience-components/bbva-expandable-accordion/bbva-expandable-ac
 import '@cells-components/cells-template-paper-drawer-panel.js';
 import '@bbva-web-components/bbva-foundations-spinner/bbva-foundations-spinner.js';
 import styles from './PokemonUi-styles.js';
-/**
-![LitElement component](https://img.shields.io/badge/litElement-component-blue.svg)
 
-This component ...
-
-Example:
-
-```html
-<pokemon-ui></pokemon-ui>
-```
-
-##styling-doc
-
-@customElement pokemon-ui
-*/
 export class PokemonUi extends LitElement {
   static get is() {
     return 'pokemon-ui';
@@ -32,6 +18,8 @@ export class PokemonUi extends LitElement {
       url: { type: String, },
       pokemons: { type: Array, },
       pokemonsEvolutions: { type: Array, },
+      Contador: { type: Number, },
+      comprobador: { type: Boolean, },
     };
   }
 
@@ -40,8 +28,10 @@ export class PokemonUi extends LitElement {
     super();
     this.pokemonsEvolutions = [];
     this.pokemons = [];
-    this.url = 'https://pokeapi.co/api/v2/evolution-chain?limit=200';//541
+    this.url = 'https://pokeapi.co/api/v2/evolution-chain?limit=541';//541
     this.evolutionPokemon();
+    this.Contador = -1;
+    this.comprobador = false;
   }
 
   static get styles() {
@@ -55,16 +45,10 @@ export class PokemonUi extends LitElement {
   try {
     const data = await fetch(url);
       if (data.ok) {
-        
         return await data.json();
-        
       }else{return false }
-       
   } catch (error) {
-    console.log('error url', url);
-    
-  }
-  };
+  }};
 
 async evolutionPokemon (){
   const urlEvolution = await this.dataUrl(this.url);
@@ -78,52 +62,76 @@ async evolutionPokemon (){
       id: firstEvolution.id,
       name: firstEvolution.chain.species.name,
       img: datosPrimero.sprites.other.home.front_default || datosPrimero.sprites.other.dream_world.front_default,
-      types:(datosPrimero.types[1]?.type.name) ? (datosPrimero.types[0].type.name +','+ datosPrimero.types[1]?.type.name) : datosPrimero.types[0].type.name,
-      evolutions: firstEvolution.chain.evolves_to.length ? true : false
+      types: {
+        first : datosPrimero.types[0]?.type.name ,
+        second : datosPrimero.types[1]?.type.name ? datosPrimero.types[1]?.type.name : ''
+      },
+      evolutions: firstEvolution.chain.evolves_to.length ? true : false,
+      ev : await this.evolutionPokemonId(firstEvolution.id)
     });
     }else{continue;}  
   }
   this.pokemons = datosPokemon;
   console.log(this.pokemons);
+  this.comprobador = true;
 }
 
 async evolutionPokemonId (id){
  const evolutionId = await this.dataUrl('https://pokeapi.co/api/v2/evolution-chain/'+ id);
     const evolutionsData = [];
-    const evolutionsDatas = [];
       for (let i = 0; i < evolutionId.chain.evolves_to.length; i++) {
         const evolutionName = await this.dataUrl('https://pokeapi.co/api/v2/pokemon/'+ evolutionId.chain.evolves_to[i].species.name);
-        evolutionsData.push({
-          name: evolutionName.species.name,
-          img: evolutionName.sprites.other.home.front_default || evolutionName.sprites.other.dream_world.front_default,
-          types:(evolutionName.types[1]?.type.name) ? (evolutionName.types[0].type.name +','+ evolutionName.types[1]?.type.name) : evolutionName.types[0].type.name,
-        });
-        for (let j = 0; j < evolutionId.chain.evolves_to[i].evolves_to.length; j++) {
-          const evolutionName2 = await this.dataUrl('https://pokeapi.co/api/v2/pokemon/'+ evolutionId.chain.evolves_to[i].evolves_to[j].species.name);
+        if(evolutionName){
           evolutionsData.push({
-            name: evolutionName2.species.name,
-            img: evolutionName2.sprites.other.home.front_default || evolutionName2.sprites.other.dream_world.front_default,
-            types:(evolutionName2.types[1]?.type.name) ? (evolutionName2.types[0].type.name +','+ evolutionName2.types[1]?.type.name) : evolutionName2.types[0].type.name,
+            name: evolutionName.species.name,
+            img: evolutionName.sprites.other.home.front_default || evolutionName.sprites.other.dream_world.front_default,
+            types: {
+              first : evolutionName.types[0]?.type.name ,
+              second : evolutionName.types[1]?.type.name ? evolutionName.types[1]?.type.name : ''
+            }
           });
         }
+        for (let j = 0; j < evolutionId.chain.evolves_to[i].evolves_to.length; j++) {
+          const evolutionName2 = await this.dataUrl('https://pokeapi.co/api/v2/pokemon/'+ evolutionId.chain.evolves_to[i].evolves_to[j].species.name);
+          if(evolutionName2){
+            evolutionsData.push({
+              name: evolutionName2.species.name,
+              img: evolutionName2.sprites.other.home.front_default || evolutionName2.sprites.other.dream_world.front_default,
+              types: {
+                first : evolutionName2.types[0]?.type.name ,
+                second : evolutionName2.types[1]?.type.name ? evolutionName2.types[1]?.type.name : false
+              }
+            });
+          }
+        }
   }
-  this.pokemonsEvolutions.push(evolutionsData);
+  return evolutionsData;
 }
 
   get pokemonlistfulla(){
-  if (!this.pokemonsEvolutions.length) {
+  if (!this.pokemons.length) {
     return null;
   }
-  console.log(this.pokemonsEvolutions,this.pokemonsEvolutions.length);
-  return this.pokemonsEvolutions.map((pokemon) => {
+  this.Contador++
+  return this.pokemons[this.Contador].ev.map((pokemon) => {
     return html `
-    <div class="tarjeta">
-    <bbva-type-text text="${pokemon.name}" size="2XL" alignment="center"></bbva-type-text>
-  <div class="cuerpo">
-    <img src="${pokemon.img}" alt="${pokemon.name} width="100" height="100">
-    <bbva-type-text text="Tipos ${pokemon.types}" alignment="center"></bbva-type-text>
-  </div>
-    `;
+    <div class="tarjeta ${pokemon.types.first}">
+      <div class="cuerpo">
+        <span class="badge fairy">Evolution</span>
+        <bbva-type-text class="${pokemon.types.first}" text="${pokemon.name}" size="2XL" alignment="center"></bbva-type-text>
+        <img src="${pokemon.img}" alt="${pokemon.name}" width="200" height="200">
+      </div>
+      <div class="pie">
+        <li>
+            ${pokemon.types.second ? 
+            html`<span class="badge ${pokemon.types.first}">${pokemon.types.first}</span>
+            <span class="badge ${pokemon.types.second}">${pokemon.types.second}</span>` 
+            : 
+            html`<span class="badge ${pokemon.types.first}">${pokemon.types.first}</span>`}
+        </li>
+      </div>
+    </div>
+    `; 
   }
 );
 }
@@ -134,26 +142,32 @@ get pokemonList() {
   }
   return this.pokemons.map((pokemon) => {
     return html`
-  <div class="tarjeta">
-    <bbva-type-text text="${pokemon.name}" size="2XL" alignment="center"></bbva-type-text>
-  <div class="cuerpo">
-    <img src="${pokemon.img}" alt="${pokemon.name}" width="200" height="200">
-    <bbva-type-text text="Tipos ${pokemon.types}" alignment="center"></bbva-type-text>
-  </div>
-  <div class="pie">
-  ${pokemon.evolutions ? html`<bbva-type-text text="Tiene evoluciones" alignment="center"></bbva-type-text>` : html`<bbva-type-text text="No tiene evoluciones" alignment="center"></bbva-type-text>`}
-  </div>
-  </div>
-    `;
+    <div class="tarjeta ${pokemon.types.first}">
+      <div class="cuerpo">
+        <bbva-type-text class="${pokemon.types.first}" text="${pokemon.name}" size="2XL" alignment="center"></bbva-type-text>
+        <img src="${pokemon.img}" alt="${pokemon.name}" width="200" height="200">
+      </div>
+      <div class="pie">
+        <li>
+          ${pokemon.types.second ? 
+          html`<span class="badge ${pokemon.types.first}">${pokemon.types.first}</span>
+          <span class="badge ${pokemon.types.second}">${pokemon.types.second}</span>` 
+          : 
+          html`<span class="badge ${pokemon.types.first}">${pokemon.types.first}</span>`}
+        </li>
+      </div>
+    </div>
+  ${this.pokemonlistfulla}
+    `
   });
-}
+  }
 
   // Define a template
   render() {
     return html`
       <slot></slot>
       <div class="contenedor"> 
-      ${this.pokemonList ? html`${this.pokemonList}` : html`<bbva-foundations-spinner size="200" with-mask></bbva-foundations-spinner>`}
+       ${this.comprobador ? html`${this.pokemonList}` : html`<bbva-foundations-spinner size="200" with-mask></bbva-foundations-spinner>`}
       </div> 
     `;
   }

@@ -1,65 +1,161 @@
-@import "node_modules/@bbva-web-components/bbva-foundations-sass/main";
+@import 'node_modules/@bbva-web-components/bbva-foundations-sass/main';
 
-:host {
-  display: block;
-  box-sizing: border-box;
-}
+$clr-black: #1c1c1c;
+$clr-gray: #ececec;
+$clr-white: #f7f7f7;
 
-:host([hidden]), [hidden] {
-  display: none !important;
-}
+$type-normal: #eadaa2;
+$type-fire: #f08030;
+$type-water: #568ea3;
+$type-grass: #78c850;
+$type-electric: #f8d030;
+$type-ice: #98d8d8;
+$type-fighting: #c03028;
+$type-poison: #a040a0;
+$type-ground: #e0c068;
+$type-flying: #a890f0;
+$type-psychic: #f85888;
+$type-bug: #a8b820;
+$type-rock: #b8a038;
+$type-ghost: #705898;
+$type-dark: #705848;
+$type-dragon: #7038f8;
+$type-steel: #b8b8d0;
+$type-fairy: #f0b6bc;
 
-*, *:before, *:after {
-  box-sizing: inherit;
-}
 bbva-foundations-spinner {
-	position: relative;
-	top: 200px;
+  position: relative;
+  top: 200px;
+}
+
+bbva-type-text {
+  border-radius: 100vmax;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .contenedor {
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-	gap: 16px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .tarjeta {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: auto;
-	border: 1px solid lightgray;
-	box-shadow: 2px 2px 8px 4px #d3d3d3d1;
-	border-radius: 15px;
-	font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: auto;
+  border: 1px solid lightgray;
+  box-shadow: 2px 2px 8px 4px #d3d3d3d1;
+  border-radius: 25px;
 }
 
-
 .cuerpo {
-	padding: 10px;
-	flex: 1 1 100%;
-	text-align: center;
+  padding: 10px;
+  flex: 1 1 100%;
+  text-align: center;
+}
+
+.badge {
+  padding: 0.5rem;
+  border-radius: 100vmax;
+  text-transform: uppercase;
+  font-weight: 600;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+  transition: 0.2s;
 }
 
 .pie {
-	background: #6699ff;
-	border-radius: 0 0 15px 15px;
-	padding: 10px;
-	text-align: center;
+  padding: 12px;
+  text-align: center;
+}
+.normal {
+  background-color: $type-normal;
+  color: $clr-black;
 }
 
-.pie a {
-	text-decoration: none;
-	color: white;
+.fire {
+  background-color: $type-fire;
+  color: $clr-black;
 }
 
-.pie a:after {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	z-index: 1;
-	content: ""
+.water {
+  background-color: $type-water;
+  color: $clr-white;
+}
+
+.grass {
+  background-color: $type-grass;
+  color: $clr-black;
+}
+
+.electric {
+  background-color: $type-electric;
+  color: $clr-black;
+}
+
+.ice {
+  background-color: $type-ice;
+  color: $clr-black;
+}
+
+.fighting {
+  background-color: $type-fighting;
+  color: $clr-white;
+}
+
+.poison {
+  background-color: $type-poison;
+  color: $clr-white;
+}
+
+.ground {
+  background-color: $type-ground;
+  color: $clr-black;
+}
+
+.flying {
+  background-color: $type-flying;
+  color: $clr-black;
+}
+
+.psychic {
+  background-color: $type-psychic;
+  color: $clr-black;
+}
+
+.bug {
+  background-color: $type-bug;
+  color: $clr-black;
+}
+
+.rock {
+  background-color: $type-rock;
+  color: $clr-black;
+}
+
+.ghost {
+  background-color: $type-ghost;
+  color: $clr-white;
+}
+
+.dark {
+  background-color: $type-dark;
+  color: $clr-white;
+}
+
+.dragon {
+  background-color: $type-dragon;
+  color: $clr-white;
+}
+
+.steel {
+  background-color: $type-steel;
+  color: $clr-black;
+}
+
+.fairy {
+  background-color: $type-fairy;
+  color: $clr-black;
 }

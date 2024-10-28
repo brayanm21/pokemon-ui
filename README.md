@@ -4,6 +4,9 @@
 This is the view part of the application so we just call https://github.com/brayanm21/pokemon-dm to bring the data and then display it on the screen. 
 We show a list of cards with each pokemon, then their evolutions.
 
+![image](https://github.com/user-attachments/assets/0231c29e-574b-44c1-ae14-3ddf37086d7f)
+
+
 # CELLS (**cells-cli**)
 
 **cells-cli** is the command line tool that provides you with common tasks and commands for working in a cells project.

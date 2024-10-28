@@ -34,7 +34,6 @@ export class PokemonUi extends LitElement {
   async firstUpdated(){
     const pokemonDm = this.shadowRoot.querySelector('pokemon-Dm');
     this.pokemons = await pokemonDm.evolutionPokemon();
-    console.log('datps',this.pokemons);
     this.comprobador = true;
   }
 
@@ -44,7 +43,7 @@ export class PokemonUi extends LitElement {
       getComponentSharedStyles('pokemon-ui-shared-styles')
     ];
   }
-
+  // mostrar las evoluciones
   get pokemonlistfulla(){
   if (!this.pokemons.length) {
     return null;
@@ -72,7 +71,7 @@ export class PokemonUi extends LitElement {
   }
 );
 }
-
+//mostrar el pokemon base
 get pokemonList() {
   if (!this.pokemons.length) {
     return null;

@@ -4,7 +4,6 @@ import styles from './PokemonUi-styles.js';
 import '@bbva-web-components/bbva-button-default/bbva-button-default';
 import '@bbva-experience-components/bbva-type-text/bbva-type-text.js';
 import '@bbva-experience-components/bbva-expandable-accordion/bbva-expandable-accordion';
-import '@cells-components/cells-template-paper-drawer-panel.js';
 import '@bbva-web-components/bbva-foundations-spinner/bbva-foundations-spinner.js';
 import '@mereki/pokemon-dm/pokemon-dm.js'
 

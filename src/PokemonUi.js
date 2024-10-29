@@ -5,7 +5,7 @@ import '@bbva-web-components/bbva-button-default/bbva-button-default';
 import '@bbva-experience-components/bbva-type-text/bbva-type-text.js';
 import '@bbva-experience-components/bbva-expandable-accordion/bbva-expandable-accordion';
 import '@bbva-web-components/bbva-foundations-spinner/bbva-foundations-spinner.js';
-import '@mereki/pokemon-dm/pokemon-dm.js'
+import '@meraki/pokemon-dm/pokemon-dm.js'
 
 export class PokemonUi extends LitElement {
   static get is() {

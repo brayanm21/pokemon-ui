@@ -1,3 +1,3 @@
 import { PokemonUi } from './src/PokemonUi.js';
 
-customElements.define('pokemon-dm', PokemonUi);
+customElements.define('pokemon-ui', PokemonUi);

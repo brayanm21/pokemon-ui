@@ -16,8 +16,6 @@ export class PokemonUi extends LitElement {
   static get properties() {
     return {
       pokemons: { type: Array, },
-      pokemonsEvolutions: { type: Array, },
-      Contador: { type: Number, },
       comprobador: { type: Boolean, },
     };
   }
@@ -26,7 +24,6 @@ export class PokemonUi extends LitElement {
   constructor() {
     super();
     this.pokemons = [];
-    this.Contador = -1;
     this.comprobador = false;
   }
 
@@ -43,33 +40,7 @@ export class PokemonUi extends LitElement {
     ];
   }
   // mostrar las evoluciones
-  get pokemonlistfulla(){
-  if (!this.pokemons.length) {
-    return null;
-  }
-  this.Contador++
-  return this.pokemons[this.Contador].ev.map((pokemon) => {
-    return html `
-    <div class="tarjeta ${pokemon.types.first}">
-      <div class="cuerpo">
-        <span class="badge fairy">Evolution</span>
-        <bbva-type-text class="${pokemon.types.first}" text="${pokemon.name}" size="2XL" alignment="center"></bbva-type-text>
-        <img src="${pokemon.img}" alt="${pokemon.name}" width="200" height="200">
-      </div>
-      <div class="pie">
-        <li>
-            ${pokemon.types.second ? 
-            html`<span class="badge ${pokemon.types.first}">${pokemon.types.first}</span>
-            <span class="badge ${pokemon.types.second}">${pokemon.types.second}</span>` 
-            : 
-            html`<span class="badge ${pokemon.types.first}">${pokemon.types.first}</span>`}
-        </li>
-      </div>
-    </div>
-    `; 
-  }
-);
-}
+  
 //mostrar el pokemon base
 get pokemonList() {
   if (!this.pokemons.length) {
@@ -77,7 +48,8 @@ get pokemonList() {
   }
   return this.pokemons.map((pokemon) => {
     return html`
-    <div class="tarjeta ${pokemon.types.first}">
+    <div class="tarjeta ${pokemon.types.first}"
+    @click="${() => this._headerIconClick(pokemon.id)}">
       <div class="cuerpo">
         <bbva-type-text class="${pokemon.types.first}" text="${pokemon.name}" size="2XL" alignment="center"></bbva-type-text>
         <img src="${pokemon.img}" alt="${pokemon.name}" width="200" height="200">
@@ -92,7 +64,6 @@ get pokemonList() {
         </li>
       </div>
     </div>
-  ${this.pokemonlistfulla}
     `
   });
   }
@@ -106,5 +77,14 @@ get pokemonList() {
       <pokemon-Dm></pokemon-Dm>
       </div> 
     `;
+  }
+
+  _headerIconClick(numero) {
+    this.dispatchEvent(
+      new CustomEvent('numero-click', {
+        bubbles: true,
+        detail: numero
+      }),
+    );
   }
 }
